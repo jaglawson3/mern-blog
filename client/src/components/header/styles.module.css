@@ -1,0 +1,31 @@
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 30px;
+    margin-top: -24px;
+}
+
+.header h3 {
+    /* flex: 1; */
+    font-size: 40px;
+    letter-spacing: 4px;
+    text-shadow: 6px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header ul {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+.header ul li {
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.header ul li:hover {
+    transform: scale(1.1);
+    transition: 300ms ease;
+}
