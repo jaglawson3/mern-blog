@@ -8,7 +8,7 @@ const fetchListOfBlogs = async (req, res) => {
   try {
     blogList = await Blog.find();
   } catch (e) {
-    console.log(error);
+    console.log(e);
   }
 
   if (!blogList) {
