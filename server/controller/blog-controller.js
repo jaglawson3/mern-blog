@@ -43,7 +43,7 @@ const addANewBlog = async (req, res) => {
     await newlyCreatedBlog.save({ session });
     session.commitTransaction();
   } catch (e) {
-    return res.send(500).json({ message: "Error saving blog" });
+    return res.status(500).json({ message: "Error saving blog" });
   }
 
   return res.status(200).json({ newlyCreatedBlog });

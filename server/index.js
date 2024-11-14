@@ -11,7 +11,7 @@ app.use(express.json());
 app.use('/api/blogs', blogRouter)
 
 app.use('/api', (req, res) => {
-    res.send('Hello World!');
+    res.send('Hello There');
 });
 
 app.listen(5000, () => console.log('App is running on port 5000...'));
