@@ -44,17 +44,22 @@ export default function Home() {
   
   return (
     <div>
-      <h1>Blog List</h1>
+      <h1 className={classes.heading}>Blog List</h1>
       {
         pending ? <h4>Loading Blogs...</h4> :
-        <div className={classes.blogList}>
+        <div className={classes.list}>
             {
                 blogList && blogList.length ? blogList.map(blogItem => (
-                <div className={classes.blogCard} key={blogItem._id}>
-                    <h4>{blogItem.title}</h4>
-                    <p>{blogItem.description}</p>
-                    <FaEdit onClick={() => handleEditBlog(blogItem)} size={20} color='gray' />
-                    <FaTrash onClick={() => handleDeleteBlog(blogItem._id)} size={20} color='red' />
+                <div className={classes.card} key={blogItem._id}>
+                  <div className={classes.iconContainer}>
+                    <FaEdit className={classes.icon} onClick={() => handleEditBlog(blogItem)} size={20}/>
+                    <FaTrash className={classes.icon} onClick={() => handleDeleteBlog(blogItem._id)} size={20}/>
+                  </div>
+                  <h4>{blogItem.title}</h4>
+                  <div className={classes.content}>
+                    
+                    <p className={classes.description}>{blogItem.description}</p>
+                  </div>
                 </div>
                 )) : <h3>No blogs added yet.</h3>
             }

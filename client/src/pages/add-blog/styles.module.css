@@ -1,5 +1,4 @@
 .wrapper {
-    padding: 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -7,13 +6,29 @@
     background-color: #f5f5f5;
     border-radius: 5px;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
+    max-width: 50%;
     margin: 0 auto;
+    margin-top: 40px;
+    padding-bottom: 40px;
 }
 
 .formWrapper {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    width: 500px;
+    width: 90%;
+}
+
+.formWrapper textarea {
+    height: 300px;
+    padding: 8px;
+}
+
+.formWrapper input {
+    padding: 6px;
+}
+
+.formWrapper button {
+    padding: 8px 15px;
+    width: 20%;
 }

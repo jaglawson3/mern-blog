@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useCallback } from "react";
 import { GlobalContext } from "../../context";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -11,43 +11,54 @@ export default function AddBlog() {
   const location = useLocation();
 
   async function handleSaveToDatabase() {
-    const response = isEdit
-      ? await axios.put(
-          `http://localhost:5000/api/blogs/update/${location.state.getCurrentBlogItem._id}`,
-          {
+    try {
+      const response = isEdit
+        ? await axios.put(`http://localhost:5000/api/blogs/update/${location.state?.getCurrentBlogItem._id}`, {
             title: formData.title,
             description: formData.description,
-          }
-        )
-      : await axios.post("http://localhost:5000/api/blogs/add", {
-          title: formData.title,
-          description: formData.description,
-        });
+          })
+        : await axios.post("http://localhost:5000/api/blogs/add", {
+            title: formData.title,
+            description: formData.description,
+          });
 
-    const result = await response.data;
-    if (result) {
-      setIsEdit(false);
-      setFormData({
-        title: "",
-        description: "",
-      });
-      navigate("/");
+      if (response.data) {
+        setIsEdit(false);
+        setFormData({ title: "", description: "" });
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Failed to save the blog:", error);
     }
   }
 
-  useEffect(() => {
-    if (location.state) {
+   useEffect(() => {
+    if (location.state?.getCurrentBlogItem) {
       const { getCurrentBlogItem } = location.state;
       setIsEdit(true);
-      setFormData({
-        title: getCurrentBlogItem.title,
-        description: getCurrentBlogItem.description,
-      });
+      setFormData({ title: getCurrentBlogItem.title, description: getCurrentBlogItem.description });
     }
-  }, [location]);
+  }, [location.state, setFormData, setIsEdit]);
+
+  // Update form data for title
+  const handleTitleChange = useCallback(
+    (e) => {
+      setFormData((prevData) => ({ ...prevData, title: e.target.value }));
+    },
+    [setFormData]
+  );
+
+  // Update form data for description
+  const handleDescriptionChange = useCallback(
+    (e) => {
+      setFormData((prevData) => ({ ...prevData, description: e.target.value }));
+    },
+    [setFormData]
+  );
+  
   return (
     <div className={classes.wrapper}>
-      <h1>{setIsEdit ? "Edit Your Blog" : "Add a blog"}</h1>
+      <h1>{isEdit ? "Edit Your Blog" : "Add a blog"}</h1>
       <div className={classes.formWrapper}>
         <input
           name="title"
@@ -55,27 +66,17 @@ export default function AddBlog() {
           id="title"
           type="text"
           value={formData.title}
-          onChange={(e) =>
-            setFormData({
-              ...formData,
-              title: e.target.value,
-            })
-          }
+          onChange={handleTitleChange}
         />
         <textarea
           name="description"
           placeholder="Enter blog description"
           id="description"
           value={formData.description}
-          onChange={(e) =>
-            setFormData({
-              ...formData,
-              description: e.target.value,
-            })
-          }
+          onChange={handleDescriptionChange}
         />
         <button onClick={handleSaveToDatabase}>
-          {setIsEdit ? "Update Blog" : "Add New Blog"}
+          {isEdit ? "Update Blog" : "Add New Blog"}
         </button>
       </div>
     </div>
