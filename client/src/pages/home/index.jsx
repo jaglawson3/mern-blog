@@ -40,7 +40,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchListOfBlogs();
-  });
+  }, []);
   
   return (
     <div>
